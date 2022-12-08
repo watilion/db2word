@@ -3,6 +3,7 @@ package com.heartsuit.db2word.mysql.service;
 import com.lowagie.text.DocumentException;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +22,12 @@ public interface DataSourceDetailService {
      *@创建时间  2018/9/4 16:52
      */
     List<Map<String, Object>> getAllDataSourceName(String dbName);
+
     /**
      *  描述：将数据写出到指定的word文档中
      *
      *@创建人  lv617
      *@创建时间  2018/9/4 16:52
      */
-    void toWord(List<Map<String, Object>> listAll) throws FileNotFoundException, DocumentException;
+    void toWord(List<Map<String, Object>> listAll, String dbName) throws IOException, DocumentException;
 }

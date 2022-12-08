@@ -25,6 +25,7 @@ public interface DataSourceMapper {
      *@创建人  lv617
      *@创建时间  2018/9/4 16:55
      */
-    @Select("select table_name AS table_name, table_comment AS table_comment from information_schema.tables where table_schema = #{dbName}")
+    @Select("select table_name AS table_name, table_comment AS table_comment from information_schema.tables where table_schema = #{dbName} AND table_comment NOT LIKE \"%（已弃用）%\"\n" +
+            "AND table_comment NOT LIKE \"%VIEW%\"")
     List<Map<String, Object>> getAllDataSourceName(@Param("dbName") String dbName);
 }

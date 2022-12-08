@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +42,12 @@ public class DataSourceDetailServiceImpl implements DataSourceDetailService {
     }
 
     @Override
-    public void toWord(List<Map<String, Object>> listAll) throws FileNotFoundException, DocumentException {
+    public void toWord(List<Map<String, Object>> listAll, String dbName) throws IOException, DocumentException {
         // 创建word文档,并设置纸张的大小
         Document document = new Document(PageSize.A4);
+        String fileName = "./data/"+ dbName + ".doc";
         // 创建word文档
-        RtfWriter2.getInstance(document, new FileOutputStream("D:/data/dbDetail.doc"));
+        RtfWriter2.getInstance(document, Files.newOutputStream(Paths.get(fileName)));
         document.open();// 设置文档标题
         Paragraph ph = new Paragraph();
         Font f = new Font();
@@ -57,7 +61,7 @@ public class DataSourceDetailServiceImpl implements DataSourceDetailService {
             // 表说明
             String table_comment = (String) listAll.get(i).get("table_comment");
             //获取某张表的所有字段说明
-            List<Map<String, Object>> list = this.getDataSourceDetail(table_name);
+            List<Map<String, Object>> list = this.getDataSourceDetail(dbName + "." + table_name);
             //构建表说明
             String all = "" + (i + 1) + " 表名：" + table_name + " " + table_comment + "";
 //            String all = "" + " 表名：" + table_name + " " + table_comment + "";
